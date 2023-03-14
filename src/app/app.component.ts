@@ -12,6 +12,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 })
 export class AppComponent implements OnInit{
   public employees:Employee[] | undefined;
+  public editEmployee!: Employee;
 
   constructor(private employeeService: EmployeeService){}
 
@@ -47,7 +48,24 @@ public onAddEmployee(addFrom: NgForm):void{
     );
 
 }
+public onEditEmployee(employee:Employee):void{
+  document.getElementById('edit-employyee-form')?.click();
   
+  this.employeeService.addEmployee(employee).subscribe(
+    (response: Employee)=>{
+      console.log(response);
+      this.getEmployees();
+
+    },
+    (error:HttpErrorResponse)=>{
+      alert(error.message);
+    }
+    
+    );
+
+
+}
+
 public openModalEmployee(employee: Employee| null, mode:String):void{
   const container=document.getElementById('containerId')
   const button=document.createElement('button');
@@ -59,6 +77,9 @@ public openModalEmployee(employee: Employee| null, mode:String):void{
     button.setAttribute('data-target',"#addEmployeeModal");
   }
   if(mode==="edit"){
+    if(employee!=null)
+    this.editEmployee=employee;
+
     button.setAttribute('data-target',"#editEmployeeModal");
   }
   if(mode ==="delete"){

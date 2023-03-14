@@ -41,7 +41,7 @@
                 </ul>
                 <div class="card-body">
                     <div class="float-right btn-group btn-group-sm">
-                        <a  class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit" (click)="openModalEmployee(employee,'add')"><i class="fa fa-pencil"></i> </a>
+                        <a  class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit" (click)="openModalEmployee(employee,'edit')"><i class="fa fa-pencil"></i> </a>
                         <a  class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete" (click)="openModalEmployee(employee,'delete')"><i class="fa fa-times"></i></a>
                     </div>
                     <ul class="social-links list-inline mb-0">
@@ -111,30 +111,32 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form #editForm="ngForm" (ngSubmit)="onEditEmployee(editForm.value)">
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="inputEmail4">First name</label>
-              <input type="text" title="" class="form-control" id="inputFirstName" >
+              <input type="hidden" class="form-control" name="id" id="id" ngModel="{{editEmployee?.id}}" placeholder="name">
+              <input type="hidden" class="form-control" name="employeeCode" id="employeeCode" ngModel="{{editEmployee?.employeeCode}}" placeholder="name" >
+              <label for="inputEmail4">Name</label>
+              <input type="text" class="form-control" id="inputFirstName" ngModel="{{editEmployee?.name}}" name="name" required="true">
             </div>
             <div class="form-group col-md-6">
-              <label for="inputPassword4">Last name</label>
-              <input type="text" class="form-control" id="inputLastName">
+              <label for="inputPassword4">Email</label>
+              <input type="text" class="form-control" id="inputLastName" ngModel="{{editEmployee?.email}}" name="email" required="true">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+            <label for="inputAddress">Image url</label>
+            <input type="text" class="form-control" id="imageUrl" placeholder="1234 Main St" ngModel="{{editEmployee?.imageUrl}}" name="imageUrl" required="true">
           </div>
           <div class="form-group">
             <label for="inputAddress2">Job Title</label>
-            <input type="text" class="form-control" id="jobTitle" placeholder="eg Full stack developer">
+            <input type="text" class="form-control" id="jobTitle" placeholder="eg Full stack developer" ngModel="{{editEmployee?.jobTitle}}" name="jobTitle" required="true">
           </div>
           <div class="form-group">
             <label for="inputAddress2">phone number</label>
-            <input type="number" class="form-control" id="jobTitle" placeholder="eg Full stack developer">
+            <input type="number" class="form-control" id="jobTitle" placeholder="eg Full stack developer" ngModel="{{editEmployee?.phoneNumber}}" name="phoneNumber" required="true">
           </div>
-          <button type="submit" class="btn btn-primary"> Edit Employee</button>
+          <button [disabled]="editForm.invalid" type="submit" class="btn btn-primary"> Edit Employee</button>
         </form>
       </div>
       <div class="modal-footer">
