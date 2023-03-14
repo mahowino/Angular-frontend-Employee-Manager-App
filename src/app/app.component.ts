@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { response } from 'express';
 import { Employee } from './employee';
 import { EmployeeService } from './employee.service';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -29,8 +30,25 @@ export class AppComponent implements OnInit{
       console.log(error.message);
     }
   }
+
+public onAddEmployee(addFrom: NgForm):void{
+  document.getElementById('add-employyee-form')?.click();
+
+  this.employeeService.addEmployee(addFrom.value).subscribe(
+    (response: Employee)=>{
+      console.log(response);
+      this.getEmployees();
+
+    },
+    (error:HttpErrorResponse)=>{
+      alert(error.message);
+    }
+    
+    );
+
+}
   
-public openModalEmployee(employee:Employee, mode:String):void{
+public openModalEmployee(employee: Employee| null, mode:String):void{
   const container=document.getElementById('containerId')
   const button=document.createElement('button');
   button.type="button";
